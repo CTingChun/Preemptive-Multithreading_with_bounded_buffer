@@ -55,10 +55,7 @@ void myTimer0Handler (void) {
 }
 
 void Bootstrap( void ) {
-    threadBitmap[0] = 0;
-    threadBitmap[1] = 0;
-    threadBitmap[2] = 0;
-    threadBitmap[3] = 0;
+    threadBitmap[0] = threadBitmap[1] = threadBitmap[2] = threadBitmap[3] = 0;
     TMOD = 0;
     IE = 0x82;
     TR0 = 1;
@@ -76,8 +73,13 @@ ThreadID ThreadCreate(FunctionPtr fp) {
     tmp = SP;
     SP = 0x3F + i*0x10;
     __asm
+        mov a,DPL
+        mov b,DPH
+        mov dptr, #_ThreadExit
         push DPL
         push DPH
+        push a
+        push b
         mov a,#0x00
         push a
         push a

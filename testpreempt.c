@@ -12,15 +12,15 @@
 * _data __at (0x30) type var;
 * to declare a variable var of the type
 */
-#define BUFFER_SIZE 3
-__idata __at (0x39) char buffer[BUFFER_SIZE];
+#define BUFFER_SIZE 6
+__idata __at (0x2D) char buffer[BUFFER_SIZE];
 __idata __at (0x3A) char buf;
-__data __at (0x33) char mutex;
-__data __at (0x34) char full;
-__data __at (0x35) char empty;
-__data __at (0x36) char produce;
-__data __at (0x37) char consume;
-__data __at (0x38) char total;
+__idata __at (0x3B) char produce;
+__idata __at (0x3C) char consume;
+__idata __at (0x3D) char total;
+__idata __at (0x35) char mutex;
+__idata __at (0x36) char full;
+__idata __at (0x37) char empty;
 
 /* [8 pts] for this function
 * the producer in this test program generates one characters at a
@@ -40,16 +40,18 @@ void Producer( void ) {
     * and then write the new data into the buffer */
         SemaphoreWait(empty);
         SemaphoreWait(mutex);
-        EA = 0;
         if (total < 3) {
-            buffer[produce] = buf;
-            total ++;
-            if (produce == 2) produce = 0;
-            else produce ++;
-            if (buf == 'Z') buf = 'A';
-            else buf ++;
+                buffer[produce] = buf;
+                total ++;
+                if (produce == 2) 
+                        produce = 0;
+                else 
+                        produce ++;
+                if (buf == 'Z') 
+                        buf = 'A';
+                else 
+                        buf ++;
         }
-        EA = 1;
         SemaphoreSignal(mutex);
         SemaphoreSignal(full);
     }
@@ -73,18 +75,16 @@ void Consumer( void ) {
     */
         SemaphoreWait(full);
         SemaphoreWait(mutex);
-        EA = 0;
         if (total > 0) {
-            SBUF = buffer[consume];
-            buffer[consume] = 0;
-            total --;
-            if (consume == 2) consume = 0;
-            else consume ++;
-            EA = 1;
-            while (!TI) { }
-            TI = 0;
+                SBUF = buffer[consume];
+                total --;
+                if (consume == 2) 
+                        consume = 0;
+                else 
+                        consume ++;
+                while (!TI) { }
+                TI = 0;
         }
-        EA = 1;
         SemaphoreSignal(mutex);
         SemaphoreSignal(empty);
     }
@@ -102,12 +102,12 @@ void main( void ) {
     * in this function and no return.
     */
     buffer[0] = buffer[1] = buffer[2] = 0;
-    produce = consume = total = 0;
+    consume = produce = total = 0;
     SemaphoreCreate(mutex, 1);
     SemaphoreCreate(full, 0);
     SemaphoreCreate(empty, 3);
-    ThreadCreate(&Producer);
-    ThreadCreate(&Consumer);
+    ThreadCreate(Producer);
+    ThreadCreate(Consumer);
     ThreadExit();
 }
 

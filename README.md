@@ -1,15 +1,9 @@
-# Operating System 2019 Spring Checkpoint 02
+# Operating System 2019 Spring Checkpoint 03
 
 ## Preemptive Multithreading
-For this programming project checkpoint, you are to write a preemptive multithreading
-package and a test case based on the single-buffer producer-consumer example.
-Preemptive multithreading means the code for each thread does not need to explicitly do a
-thread-yield in order to switch to another thread, if any. Of course, it can also do ThreadYield() if it wants.
-Depending on your implementation, you may or may not use a separate thread for the
-thread manager. If so, then you may want to define your MAXTHREADS accordingly. All
-other API should be the same. Actually, the ThreadYield() function should be available
-for preemptive threads, too, because even though the OS can always preempt a thread, a
-thread should still be able to voluntarily give up control.
+For this programming project checkpoint, you are to implement (1) semaphore with busy wait for your preemptive multithreading and (2) test your code using the **classical bounded-buffer** example. 
+You should make a new directory and copy the source files from the previous checkpoint. No need to create new files.  Instead, first add the semaphores in preemptive.h (and preemptive.c if necessary).  Second, use the semaphore primitives to write the revised producer/consumer example.
+
 
 ## Todo
 1. **Turn in the source files for preemptive multithreading to be compiled using SDCC and targets EdSim51.**
@@ -21,12 +15,12 @@ thread should still be able to voluntarily give up control.
 
 | **Item**                                         | **Score** |
 | :----------------------------------------------: | :-------: |
-| testpreempt.c                                    | 25%       |
-| preemptive.c                                     | 55%       |
+| testpreempt.h                                    | 40%       |
+| testpreempt.c                                     | 40%       |
 | Typescript for compilation                        | 2%        |
 | Screenshots and explanation                      | 18%       |
 
 
 ## Report below here
 ### Screenchot
-<img src="ppc2.png" width="313" height="119px"></img>
+<img src="ppc3.png" width="313" height="119px"></img>

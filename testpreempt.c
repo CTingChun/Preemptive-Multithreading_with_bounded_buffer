@@ -41,16 +41,10 @@ void Producer( void ) {
         SemaphoreWait(empty);
         SemaphoreWait(mutex);
         if (total < 3) {
-                buffer[produce] = buf;
-                total ++;
-                if (produce == 2) 
-                        produce = 0;
-                else 
-                        produce ++;
-                if (buf == 'Z') 
-                        buf = 'A';
-                else 
-                        buf ++;
+            buffer[produce] = buf;
+            total ++;
+            produce = ( produce  == 2) ? 0 : produce + 1;
+            buf = (buf == 'Z') ? 'A' : buf + 1;
         }
         SemaphoreSignal(mutex);
         SemaphoreSignal(full);
@@ -78,10 +72,7 @@ void Consumer( void ) {
         if (total > 0) {
                 SBUF = buffer[consume];
                 total --;
-                if (consume == 2) 
-                        consume = 0;
-                else 
-                        consume ++;
+                consume =  (consume == 2) ? 0 : consume + 1;
                 while (!TI) { }
                 TI = 0;
         }

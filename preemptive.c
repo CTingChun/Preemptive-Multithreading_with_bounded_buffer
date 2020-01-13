@@ -100,9 +100,7 @@ void ThreadYield( void ) {
     EA = 0;
     SAVESTATE ;
     for (;;) {
-        if (ID == MAXTHREADS - 1) ID = 0;
-        else ID++;
-        // ID = ( ID == MAXTHREADS - 1 ) ? 0 : ID+1;
+        ID = ( ID == MAXTHREADS - 1 ) ? 0 : ID+1;
         if (threadBitmap[ID] > 0) break;
     }
     RESTORESTATE ;
@@ -113,9 +111,7 @@ void ThreadExit( void ) {
     EA = 0;
     threadBitmap[ID] = 0;
     for (;;) {
-        if (ID == MAXTHREADS - 1) ID = 0;
-        else ID++;
-        // ID = ( ID == MAXTHREADS - 1 ) ? 0 : ID+1;
+        ID = ( ID == MAXTHREADS - 1 ) ? 0 : ID+1;
         if(threadBitmap[ID]>0) break;
     }
     RESTORESTATE;

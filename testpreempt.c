@@ -12,7 +12,7 @@
 * _data __at (0x30) type var;
 * to declare a variable var of the type
 */
-#define BUFFER_SIZE 6
+#define BUFFER_SIZE 3
 __idata __at (0x2D) char buffer[BUFFER_SIZE];
 __idata __at (0x3A) char buf;
 __idata __at (0x3B) char produce;
